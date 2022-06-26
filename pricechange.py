@@ -2,57 +2,57 @@ import datetime as dt
 from datetime import datetime, timedelta
 import time
 
+
 class PriceChange:
     def __init__(self, 
                 symbol, 
                 prev_price, 
                 price, 
-                total_trades, 
-                open, 
-                volume, 
                 isPrinted, 
                 event_time, 
-                prev_volume):                
+                all_prices,
+                is_refresh_list):                
         self.symbol = symbol
         self.prev_price = prev_price
         self.price = price
-        self.total_trades = total_trades
-        self.open = open
-        self.volume = volume        
         self.isPrinted = isPrinted
         self.event_time = event_time
-        self.prev_volume = prev_volume
+        self.all_prices = []
+        self.all_prices.append(all_prices)
+        self.is_refresh_list = is_refresh_list
+
 
     def __repr__(self):
         return repr(self.symbol, 
                     self.prev_price, 
                     self.price, 
-                    self.total_trades, 
-                    self.open, 
-                    self.volume, 
                     self.isPrinted, 
                     self.event_time, 
-                    self.prev_volume)
-        
-    @property
-    def volume_change(self):
-        return self.volume - self.prev_volume
-        
-    @property
-    def volume_change_perc(self):
-        return self.volume_change / self.prev_volume * 100
-        
-        
+                    self.all_prices,
+                    self.is_refresh_list)
+                
     @property
     def price_change(self):
-        return self.price - self.prev_price
+
+        if len(self.all_prices) >1200:
+            self.all_prices = self.all_prices[600:]
+            self.is_refresh_list = True
+
+        if abs(self.price - min(self.all_prices)) > abs(self.price - max(self.all_prices)):
+            return self.price - min(self.all_prices)
+        else:
+            return self.price - max(self.all_prices)
 
     @property
     def price_change_perc(self):
-        if (self.prev_price == 0 or self.price == 0):
+        if (self.all_prices[-1] == 0 or self.price == 0):
             return 0
         else:
-            return self.price_change / self.prev_price * 100
+            result_price_change = self.price_change
+            if result_price_change > 0:
+                return result_price_change / min(self.all_prices) * 100
+            else:
+                return result_price_change / max(self.all_prices) * 100
 
     def IsPump(self,lim_perc):
         return self.price_change_perc() >= lim_perc

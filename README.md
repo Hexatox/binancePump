@@ -4,18 +4,18 @@ Binance Pump Detector
 
 ## What is this?
 
-Creates a binance web socket and listen for trades. Aggragetes information, groups trade information via price, ticks and volume.
-prints out at the time interval most traded, price changed and volume changed symbol.
+Creates a binance web socket and listen for trades. Aggragetes information, groups trade information via price.
+prints out at the time interval most traded, price changed symbol.
 This information could be detected an anomaly. An anomaly in binance could be leading to pump or dump.
 
-Also it is working as a telegram bot here https://t.me/BinancePump_Bot
+Short or Long order can give on futures margin via software if you want
+
 
 ## How to run
 
 ```
-$ git clone https://github.com/ogu83/binancePump.git
-$ pip3 install termcolor joblib tqdm numpy pandas python-binance pyTelegramBotAPI
-$ python3 binancePump.py
+$ git clone https://github.com/tugayakca/binancePump.git
+$ python3 binancePumpV2.py
 
 ```
 
