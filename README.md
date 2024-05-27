@@ -16,6 +16,7 @@ Short or Long order can give on futures margin via software if you want
 ```
 $ git clone https://github.com/tugayakca/binancePump.git
 $ python3 binancePumpV2.py
+$ pip install -r requirements.txt
 
 ```
 
